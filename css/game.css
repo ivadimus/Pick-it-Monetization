@@ -915,6 +915,37 @@ button {
   .iphone-side-btn {
     display: none;
   }
+
+  .lane-prizes {
+    transform: translateY(-22px);
+  }
+
+  .slot-plate,
+  .slot-cloche {
+    width: min(92%, 82px);
+  }
+
+  .slot-prize {
+    width: 100%;
+    max-width: 104%;
+    max-height: 118%;
+    margin-bottom: calc(min(92%, 82px) * 0.2);
+  }
+
+  .slot-done {
+    top: 64%;
+    width: 54%;
+    max-width: 44px;
+    max-height: 56%;
+  }
+
+  .runner {
+    top: clamp(26px, 6.5%, 38px);
+  }
+
+  .runner-mark {
+    transform: translate(-50%, 18px);
+  }
 }
 
 @media (hover: none) and (pointer: coarse) and (orientation: portrait) {
