@@ -270,7 +270,7 @@
 
   async function playOpeningSequence() {
     state = "intro";
-    await wait(1100);
+    await wait(2000);
     await playCoverForRound();
     state = "idle";
     measure();
