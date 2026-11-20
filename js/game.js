@@ -371,8 +371,8 @@
     raf = requestAnimationFrame(frame);
   }
 
-  const CTA_DISSOLVE_MS = 420;
-  const CTA_IN_MS = 500;
+  const CTA_DISSOLVE_MS = 230;
+  const CTA_IN_MS = 250;
 
   async function dissolveCtaOut() {
     cta.classList.remove("is-dissolve-in");
