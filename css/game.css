@@ -523,20 +523,20 @@ button {
   display: block;
   filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.4));
   transition:
-    opacity 0.42s ease,
-    transform 0.42s ease,
-    filter 0.42s ease;
+    opacity 0.22s ease,
+    transform 0.22s ease,
+    filter 0.22s ease;
 }
 
 .cta.is-dissolve-out img {
   opacity: 0;
-  transform: scale(0.9) translateY(8px);
-  filter: blur(5px) brightness(1.15) drop-shadow(0 6px 8px rgba(0, 0, 0, 0.4));
+  transform: scale(0.96);
+  filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.4));
   pointer-events: none;
 }
 
 .cta.is-dissolve-in img {
-  animation: ctaDissolveIn 0.5s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+  animation: ctaDissolveIn 0.24s ease-out forwards;
 }
 
 .cta:active:not(.is-dissolve-out) img {
