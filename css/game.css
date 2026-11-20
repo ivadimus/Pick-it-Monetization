@@ -940,11 +940,11 @@ button {
   }
 
   .runner {
-    top: clamp(26px, 6.5%, 38px);
+    top: clamp(10px, 3.2%, 22px);
   }
 
   .runner-mark {
-    transform: translate(-50%, 18px);
+    transform: translate(-50%, 4px);
   }
 }
 
