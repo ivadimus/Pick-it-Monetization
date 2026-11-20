@@ -917,19 +917,22 @@ button {
   }
 
   .lane-prizes {
+    left: 5.5%;
+    right: 5.5%;
+    gap: 0;
     transform: translateY(-32px);
   }
 
   .slot-plate,
   .slot-cloche {
-    width: min(86%, 76px);
+    width: min(82%, 72px);
   }
 
   .slot-prize {
     width: 100%;
     max-width: 104%;
     max-height: 118%;
-    margin-bottom: calc(min(86%, 76px) * 0.2);
+    margin-bottom: calc(min(82%, 72px) * 0.2);
   }
 
   .slot-done {
