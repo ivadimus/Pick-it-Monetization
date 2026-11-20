@@ -568,6 +568,47 @@
     else if (state === "resolving" && litIndex >= 0) placeAtIndex(litIndex);
   });
 
+  const btnClose = document.getElementById("btnClose");
+
+  function isTouchMobile() {
+    return window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+  }
+
+  function tryCloseApp() {
+    const standalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      window.navigator.standalone === true;
+
+    if (isTouchMobile()) {
+      try {
+        window.open("", "_self");
+      } catch {
+        /* noop */
+      }
+      window.close();
+
+      window.setTimeout(() => {
+        if (standalone) {
+          window.location.replace("about:blank");
+          return;
+        }
+        if (window.history.length > 1) {
+          window.history.back();
+          return;
+        }
+        window.location.replace("about:blank");
+      }, 80);
+      return;
+    }
+
+    window.close();
+  }
+
+  btnClose?.addEventListener("click", (event) => {
+    event.preventDefault();
+    tryCloseApp();
+  });
+
   requestAnimationFrame(() => {
     requestAnimationFrame(measure);
   });
