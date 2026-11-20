@@ -522,10 +522,24 @@ button {
   width: auto;
   display: block;
   filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.4));
-  transition: transform 0.08s ease;
+  transition:
+    opacity 0.42s ease,
+    transform 0.42s ease,
+    filter 0.42s ease;
 }
 
-.cta:active img {
+.cta.is-dissolve-out img {
+  opacity: 0;
+  transform: scale(0.9) translateY(8px);
+  filter: blur(5px) brightness(1.15) drop-shadow(0 6px 8px rgba(0, 0, 0, 0.4));
+  pointer-events: none;
+}
+
+.cta.is-dissolve-in img {
+  animation: ctaDissolveIn 0.5s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+}
+
+.cta:active:not(.is-dissolve-out) img {
   transform: translateY(2px) scale(0.96);
 }
 
@@ -774,6 +788,19 @@ button {
   100% {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes ctaDissolveIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(10px);
+    filter: blur(6px) brightness(1.2) drop-shadow(0 6px 8px rgba(0, 0, 0, 0.4));
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+    filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.4));
   }
 }
 

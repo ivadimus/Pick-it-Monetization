@@ -371,9 +371,32 @@
     raf = requestAnimationFrame(frame);
   }
 
-  function setCreditButton() {
-    ctaImg.src = CREDIT_SRC;
-    ctaImg.alt = "Buy";
+  const CTA_DISSOLVE_MS = 420;
+  const CTA_IN_MS = 500;
+
+  async function dissolveCtaOut() {
+    cta.classList.remove("is-dissolve-in");
+    cta.classList.add("is-dissolve-out");
+    await wait(CTA_DISSOLVE_MS);
+  }
+
+  async function dissolveCtaIn(src, alt) {
+    ctaImg.src = src;
+    ctaImg.alt = alt;
+    cta.classList.remove("is-dissolve-out");
+    void cta.offsetWidth;
+    cta.classList.add("is-dissolve-in");
+    await wait(CTA_IN_MS);
+    cta.classList.remove("is-dissolve-in");
+  }
+
+  async function setCreditButton() {
+    if (ctaImg.src.includes("Credit_btn")) {
+      cta.classList.remove("is-dissolve-out", "is-dissolve-in");
+      return;
+    }
+    await dissolveCtaOut();
+    await dissolveCtaIn(CREDIT_SRC, "Buy");
   }
 
   function hideRunner() {
@@ -456,8 +479,6 @@
 
   function startCatching() {
     state = "catching";
-    ctaImg.src = CTA_SRC;
-    ctaImg.alt = "Catch!";
     runner.classList.remove("is-leaving");
     runner.classList.add("is-on");
     runner.setAttribute("aria-hidden", "false");
@@ -493,7 +514,7 @@
     slot.classList.add("is-claimed");
     if (prize) prize.classList.remove("is-reveal");
     hideRunner();
-    setCreditButton();
+    await setCreditButton();
     await wait(460);
     runner.classList.remove("is-leaving");
     runner.setAttribute("aria-hidden", "true");
@@ -507,7 +528,7 @@
     const index = litIndex;
     if (index < 0) {
       hideRunner();
-      setCreditButton();
+      await setCreditButton();
       state = "idle";
       return;
     }
@@ -547,6 +568,7 @@
     }
 
     state = "paying";
+    await dissolveCtaOut();
     pay.classList.add("is-on");
     pay.setAttribute("aria-hidden", "false");
     await wait(1000);
@@ -556,6 +578,7 @@
       await playShuffle();
       shuffleUsed = true;
     }
+    await dissolveCtaIn(CTA_SRC, "Stop");
     startCatching();
   }
 
