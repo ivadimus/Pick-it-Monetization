@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a120c" />
+  <title>Pick a Prize</title>
+  <link rel="stylesheet" href="css/game.css?v=monet13" />
+</head>
+<body>
+  <div class="rotate-overlay" aria-live="polite">
+    <div class="rotate-overlay-icon" aria-hidden="true">↻</div>
+    <p class="rotate-overlay-title">Поверните устройство</p>
+    <p class="rotate-overlay-hint">Экран работает в горизонтальном режиме</p>
+  </div>
+
+  <div class="app">
+    <div class="iphone" aria-label="Pick a Prize">
+      <div class="iphone-shell">
+        <span class="iphone-side-btn iphone-side-silent" aria-hidden="true"></span>
+        <span class="iphone-side-btn iphone-side-vol-up" aria-hidden="true"></span>
+        <span class="iphone-side-btn iphone-side-vol-down" aria-hidden="true"></span>
+        <span class="iphone-side-btn iphone-side-power" aria-hidden="true"></span>
+        <div class="iphone-bezel">
+          <div class="iphone-screen">
+            <div class="iphone-island" aria-hidden="true"></div>
+            <div class="stage" id="stage">
+              <div class="stage-shade" aria-hidden="true"></div>
+
+              <button type="button" class="btn-system btn-info" aria-label="Info">
+                <img src="Assets/System Buttons-1.png" alt="" />
+              </button>
+              <button type="button" class="btn-system btn-close" aria-label="Close">
+                <img src="Assets/System Buttons.png" alt="" />
+              </button>
+
+              <div class="play">
+                <header class="title-block">
+                  <img
+                    class="header-img"
+                    src="Assets/Header.png"
+                    alt="Pick a Prize — Catch your pick and get your Treat"
+                  />
+                </header>
+
+                <div class="timer" aria-label="23h 47m">
+                  <img src="Assets/TimerLS.png" alt="" />
+                </div>
+
+                <div class="lane" id="lane">
+                  <img class="lane-art" src="Assets/Prizes Panel.png" alt="" />
+                  <div class="highlight" id="highlight" aria-hidden="true"></div>
+                  <div class="lane-prizes" id="lanePrizes"></div>
+                  <div class="runner" id="runner" aria-hidden="true">
+                    <div class="runner-tri runner-tri--top">
+                      <img src="Assets/begunok.png" alt="" />
+                    </div>
+                    <div class="runner-tri runner-tri--bot">
+                      <img src="Assets/begunok.png" alt="" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="cta-block">
+                  <button type="button" class="cta" id="cta">
+                    <img id="ctaImg" src="Assets/Credit_btn.png" alt="Buy" />
+                  </button>
+                  <div class="hand is-on" id="hand" aria-hidden="true">
+                    <img src="Assets/image 181.png" alt="" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="vfx-layer" id="vfxLayer"></div>
+
+              <div class="pay" id="pay" aria-hidden="true">
+                <img src="Assets/Payment.png" alt="" />
+              </div>
+            </div>
+            <div class="iphone-home-bar" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/game.js?v=monet12"></script>
+</body>
+</html>

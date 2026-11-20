@@ -1,0 +1,793 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+  font-family: "Segoe UI", "Arial Rounded MT Bold", system-ui, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+.app {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.iphone {
+  --w: 932;
+  --h: 430;
+  aspect-ratio: var(--w) / var(--h);
+  width: min(96vw, calc(100dvh * var(--w) / var(--h) - 28px), calc(var(--w) * 1px));
+  filter: drop-shadow(0 24px 48px rgba(0, 0, 0, 0.65));
+}
+
+.iphone-shell {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 11px 12px;
+  border-radius: 64px;
+  background: linear-gradient(145deg, #4a4a4f 0%, #2c2c30 35%, #1a1a1d 70%, #3d3d42 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+    inset 0 1px 2px rgba(255, 255, 255, 0.08);
+}
+
+.iphone-bezel {
+  width: 100%;
+  height: 100%;
+  border-radius: 54px;
+  padding: 2px;
+  background: linear-gradient(180deg, #1f1f22, #0a0a0a);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.iphone-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50px;
+  overflow: hidden;
+  background: #7ec8f0 url("../Assets/bg.webp") 32% 78% / 100% auto no-repeat;
+}
+
+.iphone-island {
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 26%;
+  min-height: 88px;
+  max-height: 126px;
+  background: #000;
+  border-radius: 22px;
+  z-index: 30;
+}
+
+.iphone-home-bar {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 5px;
+  height: 34%;
+  max-height: 120px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.35);
+  z-index: 30;
+  pointer-events: none;
+}
+
+.iphone-side-btn {
+  position: absolute;
+  background: linear-gradient(90deg, #3a3a3e, #252528);
+  border-radius: 2px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+}
+
+.iphone-side-silent {
+  top: -3px;
+  left: 16%;
+  width: 28px;
+  height: 3px;
+}
+
+.iphone-side-vol-up {
+  top: -3px;
+  left: 24%;
+  width: 46px;
+  height: 3px;
+}
+
+.iphone-side-vol-down {
+  top: -3px;
+  left: 34%;
+  width: 46px;
+  height: 3px;
+}
+
+.iphone-side-power {
+  right: -3px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 68px;
+}
+
+.stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.stage-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 42%, rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0.78) 76%);
+  pointer-events: none;
+}
+
+.btn-system {
+  position: absolute;
+  z-index: 8;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.btn-system img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.btn-info {
+  top: 12px;
+  left: 22px;
+}
+
+.btn-close {
+  top: 12px;
+  right: 22px;
+}
+
+.play {
+  position: absolute;
+  inset: 3.5% 3.5% 5%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 0;
+  gap: clamp(8px, 1.8%, 14px);
+}
+
+.title-block {
+  display: flex;
+  justify-content: center;
+  width: min(100%, 580px);
+  margin-top: -6px;
+  transform: translateY(-10px);
+  pointer-events: none;
+}
+
+.title-block .header-img {
+  display: block;
+  width: min(100%, 520px);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.42));
+}
+
+.lane {
+  position: relative;
+  width: min(96%, 750px);
+  margin-top: clamp(2px, 0.6vh, 8px);
+  aspect-ratio: 2231 / 415;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.4));
+}
+
+.lane::before {
+  content: "";
+  position: absolute;
+  inset: 5.5% 1.4%;
+  border-radius: 40px;
+  background: rgba(8, 10, 16, 0.55);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.lane-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.lane-prizes {
+  position: absolute;
+  left: 2.4%;
+  right: 2.4%;
+  top: 11%;
+  bottom: 11%;
+  display: flex;
+  align-items: center;
+  z-index: 2;
+}
+
+.slot {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slot-prize {
+  width: 94%;
+  height: auto;
+  max-height: 112%;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.45));
+  transform-origin: 50% 55%;
+  pointer-events: none;
+}
+
+.slot-prize.is-pop {
+  position: relative;
+  z-index: 4;
+  animation: prizePop 0.52s cubic-bezier(0.16, 0.84, 0.32, 1) forwards;
+}
+
+.slot-done {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  width: 86%;
+  max-width: 92%;
+  height: auto;
+  max-height: 95%;
+  transform: translate(-50%, -50%) scale(0.2);
+  opacity: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.45));
+}
+
+.slot.is-claimed .slot-done {
+  animation: donePop 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.highlight {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 70px;
+  height: 78%;
+  border-radius: 16px;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.42);
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 255, 255, 0.45),
+    0 0 18px rgba(255, 255, 255, 0.28);
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.highlight.is-on {
+  opacity: 1;
+}
+
+.highlight.is-leaving {
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+
+.runner {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  z-index: 6;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.runner.is-on {
+  opacity: 1;
+}
+
+.runner.is-leaving {
+  opacity: 0;
+}
+
+.runner-tri {
+  position: absolute;
+  left: 0;
+  width: 46px;
+  height: 37px;
+  overflow: hidden;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.55));
+}
+
+.runner-tri img {
+  width: 46px;
+  height: 149px;
+  max-width: none;
+  display: block;
+}
+
+.runner-tri--top {
+  top: 2.5%;
+  transform: translate(-50%, -62%);
+}
+
+.runner-tri--top img {
+  transform: translateY(-4px);
+}
+
+.runner-tri--bot {
+  bottom: 2.5%;
+  transform: translate(-50%, 62%);
+}
+
+.runner-tri--bot img {
+  transform: translateY(-108px);
+}
+
+.cta-block {
+  position: relative;
+  width: 214px;
+  height: 74px;
+  display: grid;
+  place-items: center;
+  margin-top: clamp(10px, 2.2vh, 18px);
+}
+
+.cta {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.cta img {
+  height: 68px;
+  width: auto;
+  display: block;
+  filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.4));
+  transition: transform 0.08s ease;
+}
+
+.cta:active img {
+  transform: translateY(2px) scale(0.96);
+}
+
+.cta.is-shake img {
+  animation: ctaShake 0.38s ease;
+}
+
+.hand {
+  position: absolute;
+  right: -8px;
+  bottom: -26px;
+  width: 86px;
+  z-index: 6;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.hand.is-on {
+  opacity: 1;
+}
+
+.hand img {
+  width: 100%;
+  display: block;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.45));
+  transform-origin: 72% 22%;
+  animation: handTap 0.7s ease-in-out infinite;
+}
+
+.timer {
+  margin-top: -10px;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.timer img {
+  display: block;
+  height: 27.5px;
+  width: auto;
+  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.35));
+}
+
+.pay {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.72);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+}
+
+.pay.is-on {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.pay img {
+  width: min(30%, 250px);
+  height: auto;
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.45));
+  transform: scale(0.82);
+  opacity: 0;
+}
+
+.pay.is-on img {
+  animation: payIn 0.32s cubic-bezier(0.22, 1.3, 0.36, 1) forwards, payPulse 0.9s ease-in-out 0.32s infinite;
+}
+
+.vfx-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.vfx-burst {
+  position: absolute;
+  width: 132px;
+  height: 132px;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.55));
+}
+
+.vfx-flash {
+  position: absolute;
+  inset: -8%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(255, 250, 235, 0.72) 28%,
+    rgba(255, 220, 140, 0.18) 52%,
+    transparent 78%
+  );
+  mix-blend-mode: screen;
+  animation: vfxFlash 0.62s ease-out forwards;
+}
+
+.vfx-rays-wrap {
+  position: absolute;
+  inset: 0;
+}
+
+.vfx-rays {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 108%;
+  height: 108%;
+  transform: translate(-50%, -50%);
+  transform-origin: 50% 50%;
+}
+
+.vfx-rays-primary {
+  background: repeating-conic-gradient(
+    from -8deg at 50% 50%,
+    transparent 0deg 14deg,
+    rgba(255, 255, 255, 0.12) 14deg 16deg,
+    rgba(255, 255, 255, 0.52) 16deg 18.5deg,
+    rgba(255, 255, 255, 0.95) 18.5deg 19.5deg,
+    rgba(255, 255, 255, 0.52) 19.5deg 22deg,
+    rgba(255, 255, 255, 0.12) 22deg 24deg,
+    transparent 24deg 40deg
+  );
+  filter: blur(3px) brightness(1.22) drop-shadow(0 0 10px rgba(255, 255, 255, 0.85));
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 0%, #000 14%, rgba(0, 0, 0, 0.9) 28%, rgba(0, 0, 0, 0.35) 40%, transparent 46%);
+  mask-image: radial-gradient(circle at 50% 50%, #000 0%, #000 14%, rgba(0, 0, 0, 0.9) 28%, rgba(0, 0, 0, 0.35) 40%, transparent 46%);
+  animation: vfxRaysPrimary 0.92s cubic-bezier(0.25, 0.9, 0.35, 1) both;
+}
+
+.vfx-rays-secondary {
+  width: 102%;
+  height: 102%;
+  background: repeating-conic-gradient(
+    from 14deg at 50% 50%,
+    transparent 0deg 20deg,
+    rgba(255, 255, 255, 0.14) 20deg 22deg,
+    rgba(255, 255, 255, 0.42) 22deg 23.5deg,
+    rgba(255, 255, 255, 0.65) 23.5deg 24.5deg,
+    rgba(255, 255, 255, 0.42) 24.5deg 26deg,
+    rgba(255, 255, 255, 0.14) 26deg 28deg,
+    transparent 28deg 45deg
+  );
+  filter: blur(6px) brightness(1.18) drop-shadow(0 0 16px rgba(255, 255, 255, 0.65));
+  mix-blend-mode: screen;
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 0%, #000 20%, rgba(0, 0, 0, 0.5) 38%, transparent 48%);
+  mask-image: radial-gradient(circle at 50% 50%, transparent 0%, #000 20%, rgba(0, 0, 0, 0.5) 38%, transparent 48%);
+  animation: vfxRaysSecondary 1s ease-out both;
+}
+
+.vfx-rays-core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 36%;
+  height: 36%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0%, rgba(255, 255, 255, 0.88) 38%, rgba(255, 255, 255, 0.35) 62%, transparent 100%);
+  box-shadow:
+    0 0 22px rgba(255, 255, 255, 0.95),
+    0 0 44px rgba(255, 255, 255, 0.55);
+  mix-blend-mode: screen;
+  animation: vfxRaysCore 0.82s ease-out forwards;
+}
+
+.vfx-spark {
+  position: absolute;
+  width: var(--sz, 12px);
+  height: var(--sz, 12px);
+  margin: calc(var(--sz, 12px) * -0.5) 0 0 calc(var(--sz, 12px) * -0.5);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff 0%, #fff 40%, rgba(255, 255, 255, 0.75) 100%);
+  box-shadow:
+    0 0 8px #fff,
+    0 0 16px rgba(255, 255, 255, 0.75);
+  animation: sparkFly var(--dur, 0.6s) ease-out forwards;
+}
+
+.rotate-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 28px;
+  text-align: center;
+  color: #fff;
+  background: #1a120c;
+}
+
+.rotate-overlay-icon {
+  font-size: 48px;
+}
+
+.rotate-overlay-title {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.rotate-overlay-hint {
+  font-size: 15px;
+  opacity: 0.85;
+}
+
+@keyframes prizePop {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+    filter: brightness(1) drop-shadow(0 3px 3px rgba(0, 0, 0, 0.45));
+  }
+  38% {
+    transform: scale(1.48);
+    opacity: 1;
+    filter: brightness(1.35) drop-shadow(0 0 12px rgba(255, 255, 255, 0.85));
+  }
+  100% {
+    transform: scale(1.78);
+    opacity: 0;
+    filter: brightness(1.7) drop-shadow(0 0 16px rgba(255, 255, 255, 0.4));
+  }
+}
+
+@keyframes donePop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.25);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes handTap {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  45% {
+    transform: translateY(12px) scale(0.95);
+  }
+}
+
+@keyframes ctaShake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-6px);
+  }
+  75% {
+    transform: translateX(6px);
+  }
+}
+
+@keyframes payIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes payPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.045);
+  }
+}
+
+@keyframes vfxFlash {
+  0% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  14% {
+    opacity: 1;
+    transform: scale(0.88);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.15);
+  }
+}
+
+@keyframes vfxRaysPrimary {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(-14deg) scale(0.35);
+  }
+  20% {
+    opacity: 0.95;
+    transform: translate(-50%, -50%) rotate(-2deg) scale(0.78);
+  }
+  45% {
+    opacity: 0.88;
+    transform: translate(-50%, -50%) rotate(10deg) scale(0.92);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(28deg) scale(0.9);
+  }
+}
+
+@keyframes vfxRaysSecondary {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(18deg) scale(0.38);
+  }
+  24% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(-20deg) scale(0.88);
+  }
+}
+
+@keyframes vfxRaysCore {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.25);
+  }
+  16% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+@keyframes sparkFly {
+  from {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(var(--tx), var(--ty)) scale(0.2);
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .app {
+    padding: 0;
+  }
+
+  .iphone {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    aspect-ratio: auto;
+    filter: none;
+  }
+
+  .iphone-shell,
+  .iphone-bezel {
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .iphone-screen {
+    border-radius: 0;
+  }
+
+  .iphone-island,
+  .iphone-home-bar,
+  .iphone-side-btn {
+    display: none;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) and (orientation: portrait) {
+  .rotate-overlay {
+    display: flex;
+  }
+}
