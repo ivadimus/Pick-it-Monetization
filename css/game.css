@@ -64,7 +64,7 @@ button {
   height: 100%;
   border-radius: 50px;
   overflow: hidden;
-  background: #7ec8f0 url("../Assets/bg.webp") 32% 78% / 100% auto no-repeat;
+  background: #8fd4ff url("../Assets/bg.jpg") center 38% / cover no-repeat;
 }
 
 .iphone-island {
@@ -138,14 +138,6 @@ button {
   overflow: hidden;
 }
 
-.stage-shade {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse at 50% 42%, rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0.78) 76%);
-  pointer-events: none;
-}
-
 .btn-system {
   position: absolute;
   z-index: 8;
@@ -205,9 +197,9 @@ button {
 .lane {
   position: relative;
   width: min(96%, 750px);
-  margin-top: clamp(2px, 0.6vh, 8px);
+  margin-top: clamp(4px, 5vh, 28px);
+  min-height: clamp(128px, 22vh, 168px);
   aspect-ratio: 2231 / 415;
-  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.4));
 }
 
 .lane::before {
@@ -218,6 +210,12 @@ button {
   background: rgba(8, 10, 16, 0.55);
   z-index: 0;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.lane.is-active::before {
+  opacity: 1;
 }
 
 .lane-art {
@@ -228,17 +226,54 @@ button {
   display: block;
   pointer-events: none;
   z-index: 1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.lane.is-active .lane-art {
+  opacity: 1;
 }
 
 .lane-prizes {
   position: absolute;
+  left: 2.5%;
+  right: 2.5%;
+  overflow: visible;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: clamp(2px, 0.45vw, 6px);
+  transform: translateY(-48px);
+  z-index: 2;
+  transition:
+    left 0.4s ease,
+    right 0.4s ease,
+    top 0.4s ease,
+    bottom 0.4s ease;
+}
+
+.lane.is-active .lane-prizes {
   left: 2.4%;
   right: 2.4%;
   top: 11%;
-  bottom: 11%;
-  display: flex;
-  align-items: center;
-  z-index: 2;
+  bottom: 6%;
+  align-items: flex-end;
+}
+
+.slot--shuffle {
+  z-index: 5;
+  will-change: transform;
+}
+
+.slot--shuffle .slot-cloche {
+  filter: brightness(1.1);
+}
+
+.lane-prizes.is-shuffling .runner {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .slot {
@@ -247,34 +282,156 @@ button {
   min-width: 0;
   height: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+  padding-bottom: 0;
+}
+
+.slot-stack {
+  position: relative;
+  width: 100%;
+  display: grid;
+  justify-items: center;
+  align-items: end;
+}
+
+.slot-plate {
+  grid-area: 1 / 1;
+  align-self: end;
+  width: min(98%, 96px);
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 1;
+  transition:
+    opacity 0.42s ease,
+    transform 0.5s cubic-bezier(0.33, 1, 0.68, 1),
+    filter 0.35s ease;
 }
 
 .slot-prize {
-  width: 94%;
+  grid-area: 1 / 1;
+  align-self: end;
+  z-index: 2;
+  width: 104%;
   height: auto;
-  max-height: 112%;
+  max-height: 126%;
+  max-width: 108%;
+  margin-bottom: calc(min(98%, 96px) * 0.2);
   object-fit: contain;
-  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.45));
-  transform-origin: 50% 55%;
+  filter: brightness(1) drop-shadow(0 3px 3px rgba(0, 0, 0, 0.45));
+  transform-origin: 50% 88%;
+  pointer-events: none;
+  transition:
+    opacity 0.42s ease,
+    transform 0.5s cubic-bezier(0.33, 1, 0.68, 1),
+    filter 0.35s ease;
+}
+
+.slot-cloche {
+  grid-area: 1 / 1;
+  align-self: end;
+  width: min(98%, 96px);
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0;
+  transform: scale(0.78) translateY(10px);
+  filter: brightness(1);
+  transition:
+    opacity 0.48s ease,
+    transform 0.58s cubic-bezier(0.22, 1.1, 0.36, 1),
+    filter 0.14s ease;
+}
+
+.slot.is-covered .slot-plate,
+.slot.is-covered .slot-prize {
+  opacity: 0;
+  transform: scale(0.86) translateY(12px);
+  filter: brightness(1.45) blur(1px);
   pointer-events: none;
 }
 
-.slot-prize.is-pop {
+.slot.is-covered .slot-cloche {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.slot-cloche.is-lit {
+  filter: brightness(1.35) saturate(1.06) drop-shadow(0 0 12px rgba(255, 248, 210, 0.85));
+}
+
+.slot.is-catching-reveal .slot-cloche {
+  animation: clocheDissolve 0.72s ease forwards;
+}
+
+.slot.is-catching-reveal .slot-plate {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  animation: plateDissolveIn 0.74s ease 0.06s both;
+  filter: none;
+  pointer-events: none;
+}
+
+.slot.is-catching-reveal .slot-prize {
+  opacity: 0;
+  transform: scale(0.92) translateY(8px);
+  filter: blur(2px);
+}
+
+.slot.is-catching-reveal.is-prize-reveal .slot-prize {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+.slot.is-claimed .slot-cloche {
+  opacity: 0;
+  transform: scale(0.72) translateY(16px);
+  pointer-events: none;
+}
+
+.slot.is-claimed .slot-plate {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+.slot.is-claimed .slot-prize {
+  opacity: 1;
+  transform: none;
+  animation: none;
+  filter: brightness(1) drop-shadow(0 3px 3px rgba(0, 0, 0, 0.45));
+}
+
+.slot-prize.is-lit {
+  filter: brightness(1.38) saturate(1.08) drop-shadow(0 0 12px rgba(255, 248, 210, 0.9))
+    drop-shadow(0 3px 3px rgba(0, 0, 0, 0.45));
+}
+
+.slot.is-claimed .slot-prize.is-lit {
+  filter: brightness(1) drop-shadow(0 3px 3px rgba(0, 0, 0, 0.45));
+}
+
+.slot-prize.is-reveal {
   position: relative;
   z-index: 4;
-  animation: prizePop 0.52s cubic-bezier(0.16, 0.84, 0.32, 1) forwards;
+  animation: prizeReveal 0.55s cubic-bezier(0.16, 0.84, 0.32, 1) forwards;
 }
 
 .slot-done {
   position: absolute;
   left: 50%;
-  top: 52%;
-  width: 86%;
-  max-width: 92%;
+  top: 61%;
+  z-index: 5;
+  width: 58%;
+  max-width: 52px;
   height: auto;
-  max-height: 95%;
+  max-height: 62%;
   transform: translate(-50%, -50%) scale(0.2);
   opacity: 0;
   pointer-events: none;
@@ -287,7 +444,7 @@ button {
 
 .highlight {
   position: absolute;
-  top: 50%;
+  top: 0;
   left: 0;
   width: 70px;
   height: 78%;
@@ -313,10 +470,10 @@ button {
 
 .runner {
   position: absolute;
-  top: 0;
-  bottom: 0;
+  top: clamp(18px, 4.8%, 30px);
   left: 0;
   width: 0;
+  height: 0;
   z-index: 6;
   opacity: 0;
   pointer-events: none;
@@ -331,38 +488,15 @@ button {
   opacity: 0;
 }
 
-.runner-tri {
+.runner-mark {
   position: absolute;
   left: 0;
-  width: 46px;
-  height: 37px;
-  overflow: hidden;
-  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.55));
-}
-
-.runner-tri img {
-  width: 46px;
-  height: 149px;
-  max-width: none;
+  top: 0;
+  width: clamp(30px, 4.15vw, 39px);
+  height: auto;
   display: block;
-}
-
-.runner-tri--top {
-  top: 2.5%;
-  transform: translate(-50%, -62%);
-}
-
-.runner-tri--top img {
-  transform: translateY(-4px);
-}
-
-.runner-tri--bot {
-  bottom: 2.5%;
-  transform: translate(-50%, 62%);
-}
-
-.runner-tri--bot img {
-  transform: translateY(-108px);
+  transform: translate(-50%, 14px);
+  filter: none;
 }
 
 .cta-block {
@@ -371,7 +505,7 @@ button {
   height: 74px;
   display: grid;
   place-items: center;
-  margin-top: clamp(10px, 2.2vh, 18px);
+  margin-top: clamp(-6px, 0vh, 4px);
 }
 
 .cta {
@@ -399,31 +533,8 @@ button {
   animation: ctaShake 0.38s ease;
 }
 
-.hand {
-  position: absolute;
-  right: -8px;
-  bottom: -26px;
-  width: 86px;
-  z-index: 6;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-}
-
-.hand.is-on {
-  opacity: 1;
-}
-
-.hand img {
-  width: 100%;
-  display: block;
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.45));
-  transform-origin: 72% 22%;
-  animation: handTap 0.7s ease-in-out infinite;
-}
-
 .timer {
-  margin-top: -10px;
+  margin-top: -20px;
   display: flex;
   justify-content: center;
   pointer-events: none;
@@ -607,21 +718,51 @@ button {
   opacity: 0.85;
 }
 
-@keyframes prizePop {
+@keyframes clocheDissolve {
   0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: brightness(1) blur(0);
+  }
+  55% {
+    opacity: 0.45;
+    filter: brightness(1.25) blur(2px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.03) translateY(2px);
+    filter: brightness(1.4) blur(5px);
+  }
+}
+
+@keyframes plateDissolveIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.94) translateY(6px);
+    filter: blur(6px) brightness(1.35);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: none;
+  }
+}
+
+@keyframes prizeReveal {
+  0% {
+    transform: scale(0.88);
+    opacity: 0.55;
+    filter: brightness(1.15) drop-shadow(0 0 6px rgba(255, 255, 255, 0.5));
+  }
+  42% {
+    transform: scale(1.14);
+    opacity: 1;
+    filter: brightness(1.38) drop-shadow(0 0 14px rgba(255, 255, 255, 0.85));
+  }
+  100% {
     transform: scale(1);
     opacity: 1;
     filter: brightness(1) drop-shadow(0 3px 3px rgba(0, 0, 0, 0.45));
-  }
-  38% {
-    transform: scale(1.48);
-    opacity: 1;
-    filter: brightness(1.35) drop-shadow(0 0 12px rgba(255, 255, 255, 0.85));
-  }
-  100% {
-    transform: scale(1.78);
-    opacity: 0;
-    filter: brightness(1.7) drop-shadow(0 0 16px rgba(255, 255, 255, 0.4));
   }
 }
 
@@ -633,16 +774,6 @@ button {
   100% {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
-  }
-}
-
-@keyframes handTap {
-  0%,
-  100% {
-    transform: translateY(0) scale(1);
-  }
-  45% {
-    transform: translateY(12px) scale(0.95);
   }
 }
 
