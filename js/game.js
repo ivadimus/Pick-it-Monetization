@@ -299,6 +299,14 @@
     return claimed.some((value) => !value);
   }
 
+  function activeCatchIndices() {
+    const active = [];
+    for (let i = 0; i < claimed.length; i++) {
+      if (!claimed[i]) active.push(i);
+    }
+    return active;
+  }
+
   function smoothstep(t) {
     return t * t * (3 - 2 * t);
   }
