@@ -12,6 +12,7 @@
   const CREDIT_SRC = "Assets/Credit_btn.png";
   const CTA_SRC = "Assets/CTA.png";
   const ONE_WAY_MS = 980;
+  const CATCHES_PER_ROUND = 2;
 
   const stage = document.getElementById("stage");
   const lane = document.getElementById("lane");
@@ -27,7 +28,7 @@
   const slots = [];
   let centers = [];
   let state = "intro";
-  let shuffleUsed = false;
+  let catchesLeft = 0;
   let litIndex = 0;
   let litPrizeEl = null;
   let currentX = 0;
