@@ -272,7 +272,6 @@
   async function playOpeningSequence() {
     state = "intro";
     await wait(2000);
-    await playCoverForRound();
     state = "idle";
     measure();
   }
@@ -478,8 +477,15 @@
     setTimeout(() => burst.remove(), 1100);
   }
 
-  function startCatching() {
-    state = "catching";
+  function openSlotCount() {
+    let n = 0;
+    for (let i = 0; i < claimed.length; i++) {
+      if (!claimed[i]) n += 1;
+    }
+    return n;
+  }
+
+  function resumeRunnerMotion() {
     runner.classList.remove("is-leaving");
     runner.classList.add("is-on");
     runner.setAttribute("aria-hidden", "false");
@@ -491,6 +497,23 @@
         raf = requestAnimationFrame(frame);
       });
     });
+  }
+
+  function startCatching() {
+    catchesLeft = Math.min(CATCHES_PER_ROUND, openSlotCount());
+    if (catchesLeft <= 0) return;
+    state = "catching";
+    resumeRunnerMotion();
+  }
+
+  async function finishRound() {
+    hideRunner();
+    await setCreditButton();
+    await wait(200);
+    runner.classList.remove("is-leaving");
+    runner.setAttribute("aria-hidden", "true");
+    catchesLeft = 0;
+    measure();
   }
 
   async function playCatch(index) {
@@ -514,11 +537,6 @@
     slot.classList.remove("is-catching-reveal", "is-prize-reveal");
     slot.classList.add("is-claimed");
     if (prize) prize.classList.remove("is-reveal");
-    hideRunner();
-    await setCreditButton();
-    await wait(460);
-    runner.classList.remove("is-leaving");
-    runner.setAttribute("aria-hidden", "true");
     measure();
   }
 
@@ -528,13 +546,22 @@
     raf = 0;
     const index = litIndex;
     if (index < 0) {
-      hideRunner();
-      await setCreditButton();
+      await finishRound();
       state = "idle";
       return;
     }
     await animateProgress(currentX, centers[index], 150, index);
     await playCatch(index);
+    catchesLeft = Math.max(0, catchesLeft - 1);
+
+    if (catchesLeft > 0 && openSlotCount() > 0) {
+      state = "catching";
+      await wait(320);
+      resumeRunnerMotion();
+      return;
+    }
+
+    await finishRound();
     state = "idle";
   }
 
@@ -575,10 +602,8 @@
     await wait(1000);
     pay.classList.remove("is-on");
     pay.setAttribute("aria-hidden", "true");
-    if (!shuffleUsed) {
-      await playShuffle();
-      shuffleUsed = true;
-    }
+    await playCoverForRound();
+    await playShuffle();
     await dissolveCtaIn(CTA_SRC, "Stop");
     startCatching();
   }
